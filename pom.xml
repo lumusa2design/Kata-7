@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>${project.groupId}</groupId>
+    <artifactId>${project.artifactId}</artifactId>
+    <version>${project.version}</version>
+
+    <properties>
+        <maven.compiler.source>19</maven.compiler.source>
+        <maven.compiler.target>19</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.groupId>is2.ulpgc</project.groupId>
+        <project.artifactId>kata7</project.artifactId>
+        <project.version>1.0.0</project.version>
+        <mainClass>is2.ulpgc.kata7.Main</mainClass>
+    </properties>
+    <build>
+    <plugins>
+    <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.5.1</version>
+        <executions>
+            <execution>
+                <phase>package</phase>
+                <goals>
+                    <goal>shade</goal>
+                </goals>
+                <configuration>
+                    <transformers>
+                        <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                            <mainClass>${mainClass}</mainClass>
+                        </transformer>
+                    </transformers>
+                </configuration>
+            </execution>
+        </executions>
+    </plugin>
+        <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>3.1.1</version>
+            <executions>
+                <execution>
+                    <phase>install</phase>
+                    <goals>
+                        <goal>exec</goal>
+                    </goals>
+                </execution>
+            </executions>
+            <configuration>
+                <executable>jpackage</executable>
+                <arguments>
+                    <argument>--input</argument>
+                    <argument>target</argument>
+                    <argument>--name</argument>
+                    <argument>${project.artifactId}</argument>
+                    <argument>--main-jar</argument>
+                    <argument>${project.artifactId}-${project.version}</argument>
+                    <argument>--main-class</argument>
+                    <argument>${mainClass}</argument>
+                    <argument>--type</argument>
+                    <argument>exe</argument>
+                </arguments>
+            </configuration>
+        </plugin>
+    </plugins>
+    </build>
+</project>
